@@ -911,6 +911,46 @@ class BSE:
 
         return self.__req(url, params).json()
 
+    def equityPriceVolumeT12M(self, scripcode: str) -> dict:
+        """
+        Historical 12 months price and volume data for single equities
+
+        :param scripcode: BSE scrip code
+        :type scripcode: str
+        :raise TimeoutError: if request timed out with no response
+        :raise ConnectionError: in case of HTTP error or server returns error response.
+        :return: Historical 12 months data parsed into cleaner JSON format. `Sample response <https://github.com/BennyThadikaran/BseIndiaApi/blob/main/src/samples/equityPriceVolumeT12M.json>`__
+        :rtype: dict
+        """
+
+        url = f"{self.api_url}/StockReachGraph/w"
+
+        params = {
+            "scripcode": scripcode,
+            "flag": "12M",
+            "fromdate": "",
+            "todate": "",
+            "seriesid": "",
+        }
+
+        th.check()
+
+        res = self.__req(url, params).json()
+
+        if isinstance(res, str):
+            try:
+                res = json.loads(res)
+            except json.JSONDecodeError:
+                pass
+
+        if "Data" in res and isinstance(res["Data"], str):
+            try:
+                res["Data"] = json.loads(res["Data"])
+            except json.JSONDecodeError:
+                res["Data"] = []
+
+        return res
+
     def resultsSnapshot(self, scripcode: str) -> dict:
         """
         Stock results snapshot

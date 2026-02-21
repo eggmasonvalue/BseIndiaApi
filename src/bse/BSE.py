@@ -945,9 +945,19 @@ class BSE:
 
         if "Data" in res and isinstance(res["Data"], str):
             try:
-                res["Data"] = json.loads(res["Data"])
+                parsed_data = json.loads(res["Data"])
+                if parsed_data:
+                    # 'Data' typically has 'dttm', 'vale1', 'vole'
+                    # But we'll dynamically get fields from the first row
+                    fields = list(parsed_data[0].keys())
+                    data_matrix = []
+                    for row in parsed_data:
+                        data_matrix.append([row.get(f, "") for f in fields])
+                    res["Data"] = {"fields": fields, "data": data_matrix}
+                else:
+                    res["Data"] = {"fields": [], "data": []}
             except json.JSONDecodeError:
-                res["Data"] = []
+                res["Data"] = {"fields": [], "data": []}
 
         return res
 

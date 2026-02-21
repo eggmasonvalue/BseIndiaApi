@@ -911,6 +911,30 @@ class BSE:
 
         return self.__req(url, params).json()
 
+    def equityMetaInfo(self, scripcode: str) -> dict:
+        """
+        Get meta information for given scripcode
+
+        :param scripcode: BSE scrip code
+        :type scripcode: str
+        :raise TimeoutError: if request timed out with no response
+        :raise ConnectionError: in case of HTTP error or server returns error response.
+        :return: Meta information for given scripcode. `Sample response <https://github.com/BennyThadikaran/BseIndiaApi/blob/main/src/samples/equityMetaInfo.json>`__
+        :rtype: dict
+        """
+
+        url = f"{self.api_url}/ComHeadernew/w"
+
+        params = {
+            "quotetype": "EQ",
+            "scripcode": scripcode,
+            "seriesid": "",
+        }
+
+        th.check()
+
+        return self.__req(url, params).json()
+
     def equityPriceVolumeT12M(self, scripcode: str) -> dict:
         """
         Historical 12 months price and volume data for single equities

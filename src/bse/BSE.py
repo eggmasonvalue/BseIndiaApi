@@ -941,7 +941,7 @@ class BSE:
             try:
                 res = json.loads(res)
             except json.JSONDecodeError:
-                pass
+                raise ValueError(f"Failed to parse BSE's response as JSON. Raw response: {res}")
 
         if "Data" in res and isinstance(res["Data"], str):
             try:
@@ -957,7 +957,7 @@ class BSE:
                 else:
                     res["Data"] = {"fields": [], "data": []}
             except json.JSONDecodeError:
-                res["Data"] = {"fields": [], "data": []}
+                raise ValueError(f"Failed to parse inner 'Data' string as JSON. Raw string: {res['Data']}")
 
         return res
 
@@ -988,7 +988,7 @@ class BSE:
             try:
                 res = json.loads(res)
             except json.JSONDecodeError:
-                return {"error": "Failed to parse JSON", "raw": res}
+                raise ValueError(f"Failed to parse BSE's response as JSON. Raw response: {res}")
 
         currency_unit = res.get("col1", "").strip("() ")
         periods = []

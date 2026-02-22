@@ -881,6 +881,24 @@ class BSE:
 
         raise ValueError(f"Could not find scrip code for {scripname}")
 
+    def getScripGroups(self) -> List[str]:
+        """
+        Get list of all scrip groups
+
+        :raise TimeoutError: if request timed out with no response
+        :raise ConnectionError: in case of HTTP error or server returns error response.
+        :return: List of scrip groups
+        :rtype: list[str]
+        """
+        url = f"{self.api_url}/BindDDLEQ/w"
+        params = {"flag": "Group"}
+
+        th.check()
+
+        response = self.__req(url, params).json()
+
+        return [item["Symbol"] for item in response]
+
     def stockTrading(
         self, scripcode: str, flag: str = "", quotetype: str = "EQ"
     ) -> dict:

@@ -899,7 +899,7 @@ class BSE:
 
         return [item["Symbol"] for item in response]
 
-    def stockTrading(
+    def getScripTradingStats(
         self, scripcode: str, flag: str = "", quotetype: str = "EQ"
     ) -> dict:
         """
@@ -913,7 +913,7 @@ class BSE:
         :type quotetype: str
         :raise TimeoutError: if request timed out with no response
         :raise ConnectionError: in case of HTTP error or server returns error response.
-        :return: Stock trading data. `Sample response <https://github.com/BennyThadikaran/BseIndiaApi/blob/main/src/samples/stockTrading.json>`__
+        :return: Scrip trading data. `Sample response <https://github.com/BennyThadikaran/BseIndiaApi/blob/main/src/samples/getScripTradingStats.json>`__
         :rtype: dict
         """
 
